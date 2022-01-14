@@ -3,11 +3,11 @@ import FolderIcon from "../images/folder.svg";
 import BarIcon from "../images/bar.svg";
 import ArrowIcon from "../images/downArrow.svg";
 
-const TodoBigName = ({ toggleHandler }) => {
+const TodoBigName = ({ toggleHandler, title }) => {
   return (
     <Container>
       <FolderImage />
-      <TodoName>Productivity</TodoName>
+      <TodoName>{title}</TodoName>
       <BarImage />
       <ArrowButton onClick={toggleHandler} />
     </Container>

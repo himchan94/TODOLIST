@@ -1,9 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import Box from "../images/box.svg";
 
-const TodoList = () => {
+const TodoList = ({ todos }) => {
   const [todoList, setTodoList] = useState([
     { todo: "인사하기", complete: true },
     { todo: "공부하기", complete: true },
@@ -32,20 +32,20 @@ const TodoList = () => {
   return (
     <Section>
       <TodoUl>
-        {todoList.map((list, idx) => {
+        {todos.map((todo, idx) => {
           return (
             <TodoLi key={idx}>
               <Checkbox
                 onChange={() => {
                   changeComplete(idx);
                 }}
-                checked={list.complete}
+                checked={todo.complete}
               />
               <b
                 style={{
-                  textDecoration: list.complete ? "line-through" : "none",
+                  textDecoration: todo.complete ? "line-through" : "none",
                 }}>
-                {list.todo}
+                {todo.todo}
               </b>
             </TodoLi>
           );

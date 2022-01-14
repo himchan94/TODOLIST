@@ -3,7 +3,7 @@ import styled from "styled-components";
 import TodoBigName from "../elements/TodoBigName";
 import TodoList from "../elements/TodoList";
 
-const Todos = () => {
+const Todos = ({ todo }) => {
   const [showTodo, setShowTodo] = useState(false);
 
   const toggleHandler = () => {
@@ -12,8 +12,8 @@ const Todos = () => {
 
   return (
     <Container>
-      <TodoBigName toggleHandler={toggleHandler} />
-      {showTodo && <TodoList />}
+      <TodoBigName toggleHandler={toggleHandler} title={todo.title} />
+      {showTodo && <TodoList todos={todo.todos} />}
     </Container>
   );
 };
