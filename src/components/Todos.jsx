@@ -13,7 +13,7 @@ const Todos = ({ todo }) => {
   return (
     <Container>
       <TodoBigName toggleHandler={toggleHandler} title={todo.title} />
-      {showTodo && <TodoList todos={todo.todos} />}
+      {showTodo && <TodoList todos={todo.todos} title={todo.title} />}
     </Container>
   );
 };

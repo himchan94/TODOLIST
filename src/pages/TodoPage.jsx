@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import Todos from "../components/Todos";
 import styled from "styled-components";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const TodoPage = () => {
   const list = useSelector((state) => state.todos);

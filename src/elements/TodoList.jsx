@@ -1,14 +1,24 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../redux/modules/todos";
 
+// Load Image
 import Box from "../images/box.svg";
 
-const TodoList = ({ todos }) => {
+// Load MUI Icons
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+
+const TodoList = ({ todos, title }) => {
   const [todoList, setTodoList] = useState([
     { todo: "인사하기", complete: true },
     { todo: "공부하기", complete: true },
     { todo: "낚시하기", complete: false },
   ]);
+
+  const dispatch = useDispatch();
 
   const changeComplete = (index) => {
     const list = todoList.map((list, idx) => {
@@ -23,8 +33,13 @@ const TodoList = ({ todos }) => {
 
   const onKeyPress = (e) => {
     if (e.key === "Enter") {
-      const obj = { todo: e.target.value, complete: false };
-      setTodoList([...todoList, obj]);
+      const id = uuidv4();
+      const obj = {
+        title,
+        todos: { todo: e.target.value, complete: false, id },
+      };
+      dispatch(addTodo(obj));
+
       e.target.value = "";
     }
   };
@@ -47,6 +62,12 @@ const TodoList = ({ todos }) => {
                 }}>
                 {todo.todo}
               </b>
+              <Btn edit>
+                <EditIcon fontSize='small' />
+              </Btn>
+              <Btn>
+                <DeleteIcon fontSize='small' />
+              </Btn>
             </TodoLi>
           );
         })}
@@ -73,6 +94,7 @@ const TodoUl = styled.ul``;
 const TodoLi = styled.li`
   display: flex;
   margin-top: 0.998em;
+  align-items: center;
 
   &:last-child {
     margin-bottom: 2.123em;
@@ -95,4 +117,11 @@ const InputBox = styled.input`
   width: 100%;
   border: none;
   margin-left: 0.544em;
+`;
+
+const Btn = styled.button`
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin-left: ${(props) => (props.edit ? 0 : "-0.4rem")};
 `;

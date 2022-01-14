@@ -48,31 +48,19 @@ export const updateTodo = () => {};
 
 // Reducers
 
+// {title : Productivity, todos: { todo: "운동하기", complete: false, id: "1"}}
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
-    case "ADD_TODO": {
-      const new_bucket_list = [...state.list, action.bucket];
-      return { list: new_bucket_list };
-    }
-
-    case "bucket/DELETE":
-      const bucket_list = state.list.filter((l, idx) => {
-        if (idx !== action.bucket) {
-          return l;
+    case "ADD_TODO":
+      const newObj = state.map((item) => {
+        if (item.title === action.todo.title) {
+          const newTodos = [...item.todos, action.todo.todos];
+          console.log("new", newTodos);
+          return { ...item, todos: newTodos };
         }
+        return item;
       });
-      return { list: bucket_list };
-
-    case "bucket/UPDATE": {
-      const bucket_list = state.list.map((l, idx) => {
-        if (idx === action.bucket) {
-          return { ...l, completed: true };
-        }
-        return l;
-      });
-      // console.log(bucket_list); [{},{},{}] 형태
-      return { list: bucket_list };
-    }
+      return newObj;
 
     default:
       return state;
