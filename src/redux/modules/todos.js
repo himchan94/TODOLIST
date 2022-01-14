@@ -29,9 +29,9 @@ const initialState = [
 // Action
 
 const ADD_TODO = "ADD_TODO";
+const UPDATE_TODO = "UPDATE_TODO";
 const DELETE_TODO = "DELETE_TODO";
 const EDIT_TODO = "CHANGE_TODO";
-const UPDATE_TODO = "UPDATE_TODO";
 
 // Action Creators
 // todo format
@@ -41,10 +41,14 @@ export const addTodo = (todo) => {
   return { type: ADD_TODO, todo };
 };
 
+// {title : Productivity, id}
+export const updateTodo = (todo) => {
+  return { type: UPDATE_TODO, todo };
+};
+
 export const deleteTodo = () => {};
 
 export const editTodo = () => {};
-export const updateTodo = () => {};
 
 // Reducers
 
@@ -52,15 +56,31 @@ export const updateTodo = () => {};
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case "ADD_TODO":
-      const newObj = state.map((item) => {
+      const addedObj = state.map((item) => {
         if (item.title === action.todo.title) {
           const newTodos = [...item.todos, action.todo.todos];
-          console.log("new", newTodos);
           return { ...item, todos: newTodos };
         }
         return item;
       });
-      return newObj;
+      return addedObj;
+    // {title : Productivity, id}
+    case "UPDATE_TODO":
+      const changedObj = state.map((item) => {
+        if (item.title === action.todo.title) {
+          const updatedTodos = item.todos.map((list) => {
+            if (list.id === action.todo.id) {
+              return { ...list, complete: !list.complete };
+            }
+
+            return list;
+          });
+          return { ...item, todos: updatedTodos };
+        }
+
+        return item;
+      });
+      return changedObj;
 
     default:
       return state;
