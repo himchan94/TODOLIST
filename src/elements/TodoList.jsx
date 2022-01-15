@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
-import { addTodo, updateTodo } from "../redux/modules/todos";
+import { addTodo, updateTodo, deleteTodo } from "../redux/modules/todos";
 
 // Load Image
 import Box from "../images/box.svg";
@@ -18,8 +18,14 @@ const TodoList = ({ todos, title }) => {
     dispatch(updateTodo({ title, id }));
   };
 
+  const deleteItem = (title, id) => {
+    dispatch(deleteTodo({ title, id }));
+  };
+
   const onKeyPress = (e) => {
     if (e.key === "Enter") {
+      if (!e.target.value) return;
+
       const id = uuidv4();
       const obj = {
         title,
@@ -52,7 +58,10 @@ const TodoList = ({ todos, title }) => {
               <Btn edit>
                 <EditIcon fontSize='small' />
               </Btn>
-              <Btn>
+              <Btn
+                onClick={() => {
+                  deleteItem(title, todo.id);
+                }}>
                 <DeleteIcon fontSize='small' />
               </Btn>
             </TodoLi>

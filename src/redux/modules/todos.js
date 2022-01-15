@@ -46,7 +46,10 @@ export const updateTodo = (todo) => {
   return { type: UPDATE_TODO, todo };
 };
 
-export const deleteTodo = () => {};
+// {title : Productivity, id}
+export const deleteTodo = (todo) => {
+  return { type: DELETE_TODO, todo };
+};
 
 export const editTodo = () => {};
 
@@ -64,6 +67,7 @@ export default function reducer(state = initialState, action = {}) {
         return item;
       });
       return addedObj;
+
     // {title : Productivity, id}
     case "UPDATE_TODO":
       const changedObj = state.map((item) => {
@@ -81,6 +85,24 @@ export default function reducer(state = initialState, action = {}) {
         return item;
       });
       return changedObj;
+
+    // {title : Productivity, id}
+    case "DELETE_TODO":
+      const deletedObj = state.map((item) => {
+        if (item.title === action.todo.title) {
+          const deletedTodos = item.todos.filter(
+            (list) => list.id !== action.todo.id
+          );
+
+          return { ...item, todos: deletedTodos };
+        }
+        return item;
+      });
+
+      return deletedObj;
+
+    case "EDIT_TODO":
+      return null;
 
     default:
       return state;
