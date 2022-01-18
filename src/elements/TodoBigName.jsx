@@ -45,13 +45,13 @@ const BarImage = styled.img.attrs({
 
 const ArrowButton = styled.a`
   padding: 0;
-  background-image: url(${ArrowIcon}); /* 16px x 16px */
-  background-color: transparent; /* make the button transparent */
-  background-repeat: no-repeat; /* make the background image appear only once */
-  border: none; /* assuming we don't want any borders */
-  cursor: pointer; /* make the cursor like hovering over an <a> element */
+  background-image: url(${ArrowIcon});
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
   width: 0.563em;
-  height: 0.375em; /* make this the size of your image */
-  vertical-align: middle; /* align the text vertically centered */
+  height: 0.375em;
+  vertical-align: middle;
   margin-left: 0.813em;
 `;
