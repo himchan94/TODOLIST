@@ -31,7 +31,7 @@ const initialState = [
 const ADD_TODO = "ADD_TODO";
 const UPDATE_TODO = "UPDATE_TODO";
 const DELETE_TODO = "DELETE_TODO";
-const EDIT_TODO = "CHANGE_TODO";
+const EDIT_TODO = "EDIT_TODO";
 
 // Action Creators
 // todo format
@@ -51,7 +51,10 @@ export const deleteTodo = (todo) => {
   return { type: DELETE_TODO, todo };
 };
 
-export const editTodo = () => {};
+// {title : Productivity, todos: { todo: "운동하기",  id: "1"}}
+export const editTodo = (todo) => {
+  return { type: EDIT_TODO, todo };
+};
 
 // Reducers
 
@@ -100,10 +103,23 @@ export default function reducer(state = initialState, action = {}) {
       });
 
       return deletedObj;
-
+    // {title : Productivity, todos: { todo: "운동하기",  id: "1"}}
     case "EDIT_TODO":
-      return null;
+      const editedObj = state.map((item) => {
+        if (item.title === action.todo.title) {
+          const newTodos = item.todos.map((list) => {
+            if (list.id === action.todo.todos.id) {
+              return { ...list, todo: action.todo.todos.todo };
+            }
 
+            return list;
+          });
+          return { ...item, todos: newTodos };
+        }
+
+        return item;
+      });
+      return editedObj;
     default:
       return state;
   }

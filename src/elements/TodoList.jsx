@@ -1,8 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addTodo, updateTodo, deleteTodo } from "../redux/modules/todos";
+import {
+  addTodo,
+  updateTodo,
+  deleteTodo,
+  editTodo,
+} from "../redux/modules/todos";
 
 // Load Image
 import Box from "../images/box.svg";
@@ -10,8 +16,13 @@ import Box from "../images/box.svg";
 // Load MUI Icons
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CheckIcon from "@mui/icons-material/Check";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const TodoList = ({ todos, title }) => {
+  const [editMode, setEditMode] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const [inputValue, setInputValue] = useState("");
   const dispatch = useDispatch();
 
   const changeComplete = (title, id) => {
@@ -37,6 +48,10 @@ const TodoList = ({ todos, title }) => {
     }
   };
 
+  const handleChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
   return (
     <Section>
       <TodoUl>
@@ -48,22 +63,65 @@ const TodoList = ({ todos, title }) => {
                   changeComplete(title, todo.id);
                 }}
                 checked={todo.complete}
+                disabled={editMode}
               />
-              <b
-                style={{
-                  textDecoration: todo.complete ? "line-through" : "none",
-                }}>
-                {todo.todo}
-              </b>
-              <Btn edit>
-                <EditIcon fontSize='small' />
-              </Btn>
-              <Btn
-                onClick={() => {
-                  deleteItem(title, todo.id);
-                }}>
-                <DeleteIcon fontSize='small' />
-              </Btn>
+              {selected === todo.id ? (
+                <>
+                  <input
+                    value={inputValue}
+                    onChange={handleChange}
+                    placeholder={inputValue}
+                  />
+                  <Btn
+                    onClick={() => {
+                      dispatch(
+                        editTodo({
+                          title,
+                          todos: { todo: inputValue, id: todo.id },
+                        })
+                      );
+                      setEditMode(!editMode);
+                      setSelected(null);
+                      setInputValue("");
+                    }}>
+                    <CheckIcon fontSize='small' />
+                  </Btn>
+                  <Btn
+                    onClick={() => {
+                      setEditMode(!editMode);
+                      setSelected(null);
+                      setInputValue("");
+                    }}>
+                    <CancelIcon fontSize='small' />
+                  </Btn>
+                </>
+              ) : (
+                <>
+                  <b
+                    style={{
+                      textDecoration: todo.complete ? "line-through" : "none",
+                    }}>
+                    {todo.todo}
+                  </b>
+                  <Btn
+                    edit
+                    editMode={editMode}
+                    onClick={() => {
+                      setSelected(todo.id);
+                      setEditMode(!editMode);
+                      setInputValue(todo.todo);
+                    }}>
+                    <EditIcon fontSize='small' />
+                  </Btn>
+                  <Btn
+                    onClick={() => {
+                      deleteItem(title, todo.id);
+                    }}
+                    editMode={editMode}>
+                    <DeleteIcon fontSize='small' />
+                  </Btn>
+                </>
+              )}
             </TodoLi>
           );
         })}
@@ -73,6 +131,7 @@ const TodoList = ({ todos, title }) => {
         <InputBox
           placeholder='Write a task and press enter'
           onKeyPress={onKeyPress}
+          disabled={editMode}
         />
       </InputContainer>
     </Section>
@@ -115,7 +174,11 @@ const InputBox = styled.input`
   margin-left: 0.544em;
 `;
 
-const Btn = styled.button`
+const Btn = styled.button.attrs((props) => {
+  return {
+    disabled: props.editMode,
+  };
+})`
   background: transparent;
   border: none;
   cursor: pointer;
