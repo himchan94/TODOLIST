@@ -77,7 +77,8 @@ const TodoList = ({ todos, title }) => {
                       dispatch(
                         editTodo({
                           title,
-                          todos: { todo: inputValue, id: todo.id },
+                          editText: inputValue,
+                          id: todo.id,
                         })
                       );
                       setEditMode(!editMode);

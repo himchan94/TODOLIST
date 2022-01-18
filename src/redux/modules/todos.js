@@ -34,31 +34,37 @@ const DELETE_TODO = "DELETE_TODO";
 const EDIT_TODO = "EDIT_TODO";
 
 // Action Creators
-// todo format
-// {title : Productivity, todos: { todo: "운동하기", complete: false, id: "1"}}
-// 이런 식으로 데이터를 받아야, 해당 title을 찾아 todo를 추가할 수 있을 듯
+
+/**
+ * @param todo = {title : Productivity, todos: { todo: "운동하기", complete: false, id: "1"}
+ */
 export const addTodo = (todo) => {
   return { type: ADD_TODO, todo };
 };
 
-// {title : Productivity, id}
+/**
+ * @param todo = {title : Productivity, id}
+ */
 export const updateTodo = (todo) => {
   return { type: UPDATE_TODO, todo };
 };
 
-// {title : Productivity, id}
+/**
+ * @param todo = {title : Productivity, id}
+ */
 export const deleteTodo = (todo) => {
   return { type: DELETE_TODO, todo };
 };
 
-// {title : Productivity, todos: { todo: "운동하기",  id: "1"}}
+/**
+ * @param todo {title : Productivity,  todo: "운동하기",  id: "1"}
+ * @returns
+ */
 export const editTodo = (todo) => {
   return { type: EDIT_TODO, todo };
 };
 
 // Reducers
-
-// {title : Productivity, todos: { todo: "운동하기", complete: false, id: "1"}}
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case "ADD_TODO":
@@ -71,7 +77,6 @@ export default function reducer(state = initialState, action = {}) {
       });
       return addedObj;
 
-    // {title : Productivity, id}
     case "UPDATE_TODO":
       const changedObj = state.map((item) => {
         if (item.title === action.todo.title) {
@@ -89,7 +94,6 @@ export default function reducer(state = initialState, action = {}) {
       });
       return changedObj;
 
-    // {title : Productivity, id}
     case "DELETE_TODO":
       const deletedObj = state.map((item) => {
         if (item.title === action.todo.title) {
@@ -103,13 +107,13 @@ export default function reducer(state = initialState, action = {}) {
       });
 
       return deletedObj;
-    // {title : Productivity, todos: { todo: "운동하기",  id: "1"}}
+
     case "EDIT_TODO":
       const editedObj = state.map((item) => {
         if (item.title === action.todo.title) {
           const newTodos = item.todos.map((list) => {
-            if (list.id === action.todo.todos.id) {
-              return { ...list, todo: action.todo.todos.todo };
+            if (list.id === action.todo.id) {
+              return { ...list, todo: action.todo.editText };
             }
 
             return list;
