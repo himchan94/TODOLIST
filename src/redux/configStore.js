@@ -5,10 +5,11 @@ import { composeWithDevTools } from "redux-devtools-extension";
 const rootReducer = combineReducers({ todos });
 
 const middleware = (store) => (next) => (action) => {
-  console.log(store);
-  console.log(next);
-  console.log(action);
-  if (window.confirm("Are you sure?")) {
+  if (action.type === "DELETE_TODO") {
+    if (window.confirm("Are you sure?")) {
+      next(action);
+    }
+  } else {
     next(action);
   }
 };
