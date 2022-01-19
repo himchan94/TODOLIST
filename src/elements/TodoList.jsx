@@ -52,9 +52,15 @@ const TodoList = ({ todos, title }) => {
     setInputValue(e.target.value);
   };
 
+  const exitEditMode = () => {
+    setEditMode(!editMode);
+    setSelected(null);
+    setInputValue("");
+  };
+
   return (
     <Section>
-      <TodoUl>
+      <ul>
         {todos.map((todo) => {
           return (
             <TodoLi key={todo.id}>
@@ -81,18 +87,11 @@ const TodoList = ({ todos, title }) => {
                           id: todo.id,
                         })
                       );
-                      setEditMode(!editMode);
-                      setSelected(null);
-                      setInputValue("");
+                      exitEditMode();
                     }}>
                     <CheckIcon fontSize='small' />
                   </Btn>
-                  <Btn
-                    onClick={() => {
-                      setEditMode(!editMode);
-                      setSelected(null);
-                      setInputValue("");
-                    }}>
+                  <Btn onClick={exitEditMode}>
                     <CancelIcon fontSize='small' />
                   </Btn>
                 </>
@@ -126,7 +125,7 @@ const TodoList = ({ todos, title }) => {
             </TodoLi>
           );
         })}
-      </TodoUl>
+      </ul>
       <InputContainer>
         <img src={Box} alt='Just A Box' />
         <InputBox
@@ -144,8 +143,6 @@ export default TodoList;
 const Section = styled.section`
   margin-top: 1.619em;
 `;
-
-const TodoUl = styled.ul``;
 
 const TodoLi = styled.li`
   display: flex;
