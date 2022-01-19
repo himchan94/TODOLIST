@@ -27,7 +27,6 @@ const initialState = [
 ];
 
 // Action
-
 const ADD_TODO = "ADD_TODO";
 const UPDATE_TODO = "UPDATE_TODO";
 const DELETE_TODO = "DELETE_TODO";
@@ -35,31 +34,26 @@ const EDIT_TODO = "EDIT_TODO";
 
 // Action Creators
 
-/**
- * @param todo = {title : Productivity, todos: { todo: "운동하기", complete: false, id: "1"}
- */
+// @param {array} todo {title : Productivity, todos: { todo: "운동하기", complete: false, id: "1"}
+
 export const addTodo = (todo) => {
   return { type: ADD_TODO, todo };
 };
 
-/**
- * @param todo = {title : Productivity, id}
- */
+// @param {array} todo {title : Productivity, id}
+
 export const updateTodo = (todo) => {
   return { type: UPDATE_TODO, todo };
 };
 
-/**
- * @param todo = {title : Productivity, id}
- */
+// @param {array} todo {title : Productivity, id}
+
 export const deleteTodo = (todo) => {
   return { type: DELETE_TODO, todo };
 };
 
-/**
- * @param todo {title : Productivity,  todo: "운동하기",  id: "1"}
- * @returns
- */
+// @param {array} todo {title : Productivity,  todo: "운동하기",  id: "1"}
+
 export const editTodo = (todo) => {
   return { type: EDIT_TODO, todo };
 };
@@ -124,6 +118,7 @@ export default function reducer(state = initialState, action = {}) {
         return item;
       });
       return editedObj;
+
     default:
       return state;
   }
